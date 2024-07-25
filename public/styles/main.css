@@ -1,0 +1,86 @@
+body{
+    background-color: #006C75;
+}
+.header{
+    color:rgb(249, 222, 186);
+}
+.card-body2 {
+    color: rgb(249, 222, 186);
+    margin-left: 42%;
+    margin-top: 1%;
+}
+.card-body2 a{
+    color:rgb(249, 222, 186);
+    text-decoration: none;
+}
+.card-body2 a:hover{
+    text-decoration: underline;
+}
+
+
+.card {
+    background-color: rgb(249, 222, 186);
+    border-radius: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 250px;
+    height: 281px;
+    position: relative;
+    left: 36%;
+}
+
+#email {
+    position: relative;
+    top: 21px;
+    left: 5px;
+    color: teal;
+    font-size: 27px;
+}
+#password {
+    color: teal;
+    font-size: 25px;
+    position: relative;
+    left: 5px;
+    top: 55px;
+}
+.form-control1 {
+    border: white;
+    border-radius: 14px;
+    height: 30px;
+    width: 225px;
+    position: relative;
+    top: 33px;
+    left: 5px;
+}
+.form-control2 {
+    border-radius: 14px;
+    border: white;
+    position: relative;
+    left: 5px;
+    top: 64px;
+    height: 30px;
+    width: 227px;
+}
+.btn-dark {
+    border-radius: 10%;
+    border-color: teal;
+    color: white;
+    background-color: teal;
+    position: relative;
+    height: 29px;
+    width: 93px;
+    left: 72px;
+    top: 99px;
+}
+.account {
+    color: rgb(249, 222, 186);
+    margin-left: 38%;
+    margin-top: 1%;
+}
+.account a{
+    color: rgb(249, 222, 186);
+    text-decoration: none;
+}
+.account a:hover{
+    text-decoration: underline;
+}

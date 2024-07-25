@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/content.css">
+</head>
+<body>
+    <div class="title"><%= title %></div>
+    <div class="top-div">
+        <% for(let item of listItems){%>
+            <div class="content">
+                <div class="topic" value="<%= item.id%>" ><%= item.topic %></div>
+                <div class="line"></div>
+                <div class="link">
+                    <a href="<%= item.link %>" value="<%= item.id%>" >Click here!</a>
+                </div>
+                <% } %>
+            </div>
+    </div>
+</body>
+</html>

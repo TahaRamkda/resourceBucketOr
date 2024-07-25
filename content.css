@@ -1,0 +1,43 @@
+body {
+    background-color: rgb(249, 222, 186);
+    padding-top: 16px;
+    padding-left: 12%;
+}
+.title{
+    font-size: 50px;
+    color: #006C75;
+}
+.content {
+    background-color: #006C75;
+    height: 48px;
+    width: 700px;
+    color: rgb(249, 222, 186);
+    display: flex;
+    border-radius: 15px;
+    margin-top: 10px;
+}
+.topic {
+    width: 526px;
+    height: 35px;
+    display: inline-block;
+    font-size: 22px;
+    padding-top: 9px;
+    padding-left: 6px;
+}
+.line {
+    background-color: rgb(249, 222, 186);
+    margin-top: 4px;
+    height: 40px;
+    width: 1px;
+}
+.link {
+    font-size: 22px;
+    padding-top: 10px;
+    padding-left: 40px;
+}
+.link a{
+    text-decoration: none;
+    color: rgb(249, 222, 186);
+}.link a:hover{
+    text-decoration: underline;
+}
