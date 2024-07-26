@@ -6,4 +6,4 @@ cd /var/www/resourceBucket
 pm2 stop all
 
 # Start the application
-pm2 start app.js
+pm2 start index.js
