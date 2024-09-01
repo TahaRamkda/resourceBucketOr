@@ -8,11 +8,18 @@ import session from "express-session";
 import env from "dotenv";
 import GoogleStrategy from "passport-google-oauth2"
 import AWS from "aws-sdk";
+import path from "path";
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 const saltRounds = 10;
 env.config();
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(
   session({
@@ -42,6 +49,9 @@ app.get("/", (req, res) => {
   res.render("ResourceBucket1.ejs");
 });
 
+app.get("/verify", (req, res) => {
+  res.render('OneTimePassword', { response: '' });
+});
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
@@ -72,15 +82,15 @@ app.get("/assignment", async (req, res) => {
   if (req.isAuthenticated()) {
     try {
       const params = {
-        Bucket: 'bucketforresources', // replace with your S3 bucket name
-        Prefix: 'assignments/', // replace with the folder prefix you want to list
+        Bucket: 'bucketforresources', 
+        Prefix: 'assignments/',
       };
 
       const data = await s3.listObjectsV2(params).promise();
 
       const topic = data.Contents.map((item, index) => ({
         id: index,
-        topic: `Topic ${index + 1}`, // Placeholder for topic name, adjust as needed
+        topic: `Topic ${index + 1}`, 
         link: `https://${params.Bucket}.s3.amazonaws.com/${item.Key}`
       }));
 
@@ -111,13 +121,20 @@ app.get(
   })
 );
  
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/ResourceBucket",
-    failureRedirect: "/login",
-  })
-);
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) {
+     
+      return res.render('login', { showAnotherWay: info && info.showAnotherWay });
+    }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.redirect('/ResourceBucket');
+    });
+  })(req, res, next);
+});
+
 
 app.post("/register", async (req, res) => {
   const email = req.body.username;
@@ -126,7 +143,7 @@ app.post("/register", async (req, res) => {
   try {
     const params = {
       TableName: 'Students',
-      IndexName: 'Email-index', // Make sure to create a Global Secondary Index on Email
+      IndexName: 'Email-index', 
       KeyConditionExpression: 'Email = :email',
       ExpressionAttributeValues: {
         ':email': email
@@ -182,7 +199,7 @@ passport.use("local",
     try {
       const params = {
         TableName: 'Students',
-        IndexName: 'Email-index', // Make sure to create a Global Secondary Index on Email
+        IndexName: 'Email-index', 
         KeyConditionExpression: 'Email = :email',
         ExpressionAttributeValues: {
           ':email': username
@@ -196,17 +213,17 @@ passport.use("local",
         bcrypt.compare(password, storedHashedPassword, (err, valid) => {
           if (err) {
             console.error("Error comparing passwords:", err);
-            return cb(err);
+            return cb(null, false);
           } else {
             if (valid) {
               return cb(null, user);
             } else {
-              return cb(null, false);
+              return cb(null, false, { showAnotherWay: true });
             }
           }
         });
       } else {
-        return cb("User not found");
+        return cb(null, false, {showAnotherWay: false });
       }
     } catch (err) {
       console.log(err);
@@ -214,6 +231,50 @@ passport.use("local",
     }
   })
 );
+
+app.post('/verify', async (req, res) => {
+  const email = req.headers['email'];
+  const otp = req.headers['otp'];
+  
+  console.log('Email from request body:', email);
+  console.log('otp recieved is : ',otp);
+
+  const params = {
+      TableName: 'OTP',
+      Key: {
+          email: email
+      }
+  };
+  console.log('Params:', params);  // Debugging output
+
+  try {
+    const result = await docClient.get(params).promise();
+
+    if (!result.Item) {
+        console.log('error OTP Expired!!');
+    } else if (result.Item.otp === otp) {
+        await docClient.delete(params).promise();
+        console.log('OTP verified successfully!!');
+
+        const user = {
+          studentID: result.Item.studentID, 
+          Email: email
+        };
+        
+        req.login(user, (err) => {
+          if (err) {
+            console.error("Error during login:", err);
+            return res.status(500).json({ status: 'error', message: 'Error during login' });
+          }
+        res.status(200).json({ result: 'success' });
+      });
+      } else {
+        res.status(400).json({ result: 'error' });
+      }
+} catch (error) {
+    console.error('Error verifying OTP:', error);
+}
+});
 
 passport.use(
   "google",
@@ -229,7 +290,7 @@ passport.use(
         console.log(profile);
         const params = {
           TableName: 'students',
-          IndexName: 'Email-index', // Make sure to create a Global Secondary Index on Email
+          IndexName: 'Email-index', 
           KeyConditionExpression: 'Email = :email',
           ExpressionAttributeValues: {
             ':email': profile.email

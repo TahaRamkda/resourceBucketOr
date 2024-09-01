@@ -1,0 +1,87 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #006C75;
+    font-family: Arial, sans-serif;
+}
+
+.otp-container {
+    width: 234px;
+    background-color: #fff1d4;
+    padding: 13px 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.otp-container p {
+    font-size: 18px;
+    color:  #006C75;
+    margin-bottom: 20px;
+}
+
+.otp-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    text-align: center; /* Center the placeholder text */
+    color: #006C75; /* Add if you want to set the input text color */
+}
+.otp-container input::placeholder {
+    text-align: center; /* Center the placeholder text */
+    color: #999; /* Optional: Set a color for the placeholder text */
+}
+
+.otp-container button {
+    background-color: #006C75;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.otp-container button:hover {
+    background-color: #006C75;
+}
+.success-container {
+    background-color: #fff1d4;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.success-container .success-icon {
+    font-size: 50px;
+    color: #66cc66;
+    margin-bottom: 20px;
+}
+
+.success-container p {
+    font-size: 18px;
+    color: #009999;
+    margin-bottom: 20px;
+}
+
+.success-container button {
+    background-color: #00b3b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.success-container button:hover {
+    background-color: #009999;
+}

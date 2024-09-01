@@ -1,5 +1,6 @@
 body{
     background-color: #006C75;
+    
 }
 .header{
     color:rgb(249, 222, 186);
@@ -43,6 +44,16 @@ body{
     left: 5px;
     top: 55px;
 }
+
+#OPT{
+    color: teal;
+    font-size: 20px;
+    position: relative;
+    left: 5px;
+    top: 74px;
+    text-decoration: none;
+}
+
 .form-control1 {
     border: white;
     border-radius: 14px;
@@ -84,3 +95,4 @@ body{
 .account a:hover{
     text-decoration: underline;
 }
+

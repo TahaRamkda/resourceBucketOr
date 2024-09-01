@@ -15,16 +15,20 @@
       <div class="col-sm-8">
         <div class="card">
           <div class="card-body">       
-            <form action="/login" method="POST">
-              
+            <form action="/login" method="POST" id="loginForm">
                 <label id="email" for="email">Email</label>
-                <input type="email" class="form-control1" name="username">
+                <input type="email" class="form-control1" name="username" id="Email">
                 <label id="password" for="password">Password</label>
-                <input type="password" class="form-control2" name="password">
-              
+                <input type="password" class="form-control2" name="password" id="password">
+                
+                <% if (typeof showAnotherWay !== 'undefined' && showAnotherWay) { %>
+                <div class="alternative">
+                  <a id="OPT" onclick="tryAnotherWay()">Try another way!</a>
+                </div>
+                <% } %>
+                
               <button type="submit" class="btn btn-dark">Login</button>
             </form>
-
           </div>
         </div>
       </div>
@@ -42,11 +46,28 @@
 
     </div>
     <div class="account">
-      Don't have any account? <a href="/register">Click here!</a>
+      Don't have an account? <a href="/register">Click here!</a>
     </div>
   </div>
-  </div>
 
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        const email = document.getElementById('Email').value;
+        localStorage.setItem('userEmail', email);
+    });
+
+    function tryAnotherWay() {
+      // Retrieve the email from localStorage
+      const email = localStorage.getItem('userEmail');
+    
+      // Redirect to the verify page with the encoded email
+      if (email) {
+        window.location.href = `/verify?email=${encodeURIComponent(email)}`;
+      } else {
+        alert('Email is required to proceed!');
+      }
+    }
+  </script>
   
 </body>
 </html>
